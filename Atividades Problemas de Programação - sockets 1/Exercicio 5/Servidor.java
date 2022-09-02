@@ -1,7 +1,7 @@
 import java.net.*;
 import java.io.*;
 
-class Conexao extends Thread {
+class Conexao {
 
 	private Socket socketCliente;
 
@@ -9,7 +9,7 @@ class Conexao extends Thread {
 		this.socketCliente = aSocketCliente;
 	}
 
-	public void run() {
+	public void iniciar() {
 		PrintWriter saida = null;
 		BufferedReader entrada = null;
 
@@ -84,10 +84,11 @@ public class Servidor {
 				socketCliente = socketServidor.accept();
 			} catch (IOException e) {
 				System.err.println("Erro de E/S " + e);
+				socketServidor.close();
 				System.exit(1);
 			}
 
-			new Conexao(socketCliente).start();
+			new Conexao(socketCliente).iniciar();
 		}
 	}
 }
